@@ -8,17 +8,14 @@ of its nodes, nor the number of children its nodes have."
 
 (defun sexp->tree (sexp)
   "Convert a sexp into a general tree."
-  (unless (null sexp)
-    (let ((data nil)
-          (children nil))
-      (typecase sexp
-        (atom (setq data sexp))
-        (list (setq data (first sexp)
-                    children (map 'list #'sexp->tree (rest sexp)))))
-      (make-general-tree :data data
-                         :children children))))
+  (if (consp sexp)
+      (make-general-tree :data (first sexp)
+                         :children (mapcar #'sexp->tree (rest sexp)))
+      sexp))
 
 (defun tree->sexp (tree)
   "Convert a general tree into a sexp."
-  (cons (general-tree-data tree)
-        (mapcar #'tree->sexp (general-tree-children tree))))
+  (if (general-tree-p tree)
+      (cons (general-tree-data tree)
+            (mapcar #'tree->sexp (general-tree-children tree)))
+      tree))
