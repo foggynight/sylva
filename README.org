@@ -1,10 +1,10 @@
-* sylva
+#+title: sylva
 
-** Description
+* Description
 
 Library for various types of trees with a unified interface in Common Lisp.
 
-** License
+* License
 
 Copyright (C) 2021 Robert Coffey
 
