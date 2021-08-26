@@ -20,6 +20,15 @@ of its nodes, nor the number of children its nodes have."
             (mapcar #'tree->sexp (general-tree-children tree)))
       tree))
 
+(defun leaf? (tree)
+  "Is a general tree a leaf?"
+  (endp (general-tree-children tree)))
+
+(defun equal? (tree-0 tree-1)
+  "Are two general trees equal?"
+  (tree-equal (tree->sexp tree-0)
+              (tree->sexp tree-1)))
+
 (defun preorder-traversal (tree)
   "Perform a preorder traversal of a general tree and collect the data at each
 visited node in a list."
