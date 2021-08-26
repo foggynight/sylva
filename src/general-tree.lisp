@@ -1,8 +1,8 @@
 (in-package #:sylva)
 
 (defstruct general-tree
-  "General tree structure representing a tree with no constraints on the order
-of its nodes, nor the number of children its nodes have."
+  "GENERAL-TREE struct representing a tree with no constraints on the order of
+its nodes, nor the number of children its nodes have."
   data
   (children nil :type list))
 

@@ -5,9 +5,10 @@ Common Lisp."
   :license "GPLv2"
   :version "0.1.0"
 
-  :pathname "src/"
 
   :serial t
+  :pathname "src/"
   :components ((:file "package")
 
-               (:file "general-tree")))
+               (:file "general-tree")
+               (:file "binary-tree")))
