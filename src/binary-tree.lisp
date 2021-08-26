@@ -27,8 +27,8 @@ BINARY-TREE is deemed to be sorted if any of the following conditions are met:
 Optionally, the test used to determine if the list resulting from an inorder
 traversal of BINARY-TREE is sorted may be specified using the TEST key
 parameter."
-  (flet ((sorted? (list)
+  (flet ((sorted-list? (list)
            (every test list (rest list))))
     (or (not (binary-tree-p binary-tree))
         (leaf? binary-tree)
-        (sorted? (inorder-traversal binary-tree)))))
+        (sorted-list? (inorder-traversal binary-tree)))))
