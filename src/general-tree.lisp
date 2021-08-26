@@ -6,12 +6,24 @@ of its nodes, nor the number of children its nodes have."
   data
   (children nil :type list))
 
-(defun sexp->tree (sexp)
-  "Convert a sexp into a general tree."
-  (if (consp sexp)
-      (make-general-tree :data (first sexp)
-                         :children (mapcar #'sexp->tree (rest sexp)))
-      sexp))
+(defun %%sexp->tree (sexp constructor)
+  (if (atom sexp)
+      sexp
+      (funcall constructor
+               :data (first sexp)
+               :children (mapcar (lambda (e)
+                                   (%%sexp->tree e constructor))
+                                 (rest sexp)))))
+
+(defmethod %sexp->tree (sexp (tree-type (eql 'general-tree)))
+  (%%sexp->tree sexp #'make-general-tree))
+
+(defmacro sexp->tree (sexp &optional (tree-type 'general-tree))
+  "Convert SEXP into a tree.
+
+Optionally, the type of tree may be specified by passing a symbol to the
+TREE-TYPE parameter."
+  `(%sexp->tree ,sexp ',tree-type))
 
 (defun tree->sexp (tree)
   "Convert a general tree into a sexp."
