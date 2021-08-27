@@ -26,24 +26,24 @@ TREE-TYPE parameter."
   (%sexp->tree sexp tree-type))
 
 (defun tree->sexp (tree)
-  "Convert a general tree into a sexp."
+  "Convert a tree into a sexp."
   (if (general-tree-p tree)
       (cons (general-tree-data tree)
             (mapcar #'tree->sexp (general-tree-children tree)))
       tree))
 
 (defun leaf? (tree)
-  "Is a general tree a leaf?"
+  "Is a tree a leaf?"
   (endp (general-tree-children tree)))
 
 (defun equal? (tree-0 tree-1)
-  "Are two general trees equal?"
+  "Are two trees equal?"
   (tree-equal (tree->sexp tree-0)
               (tree->sexp tree-1)))
 
 (defun preorder-traversal (tree)
-  "Perform a preorder traversal of a general tree and collect the data at each
-visited node in a list."
+  "Perform a preorder traversal on a tree and collect the data at each visited
+node in a list."
   (if (general-tree-p tree)
       (cons (general-tree-data tree)
             (reduce #'append
@@ -52,8 +52,8 @@ visited node in a list."
       (list tree)))
 
 (defun postorder-traversal (tree)
-  "Perform a postorder traversal of a general tree and collect the data at each
-visited node in a list."
+  "Perform a postorder traversal on a tree and collect the data at each visited
+node in a list."
   (if (general-tree-p tree)
       (append (reduce #'append
                       (mapcar #'postorder-traversal
@@ -62,8 +62,8 @@ visited node in a list."
       (list tree)))
 
 (defun inorder-traversal (tree)
-  "Perform an inorder traversal of a general tree and collect the data at each
-visited node in a list."
+  "Perform an inorder traversal on a tree and collect the data at each visited
+node in a list."
   (if (general-tree-p tree)
       (let* ((children (general-tree-children tree))
              (center-index (ceiling (length children) 2)))
