@@ -30,4 +30,4 @@ BINARY-TREE is sorted may be specified using the TEST key parameter."
            (every test list (rest list))))
     (or (not (binary-tree-p binary-tree))
         (leaf? binary-tree)
-        (sorted-list? (inorder-traversal binary-tree)))))
+        (sorted-list? (traverse binary-tree :order :inorder)))))
