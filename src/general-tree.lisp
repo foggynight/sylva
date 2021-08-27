@@ -45,6 +45,32 @@ parameter, the default test is the default test of TREE-EQUAL, which is EQL."
               (tree->sexp tree-1)
               :test test))
 
+(defun size (tree)
+  "Get the number of nodes in TREE."
+  (if (general-tree-p tree)
+      (1+ (reduce #'+ (mapcar #'size (general-tree-children tree))))
+      (if (null tree) 0 1)))
+
+(defun depth (tree root &optional (start 0))
+  "Get the depth of TREE relative to ROOT, where depth is defined as the number
+of branches between a tree node and the root of the tree."
+  (if (eql tree root)
+      start
+      (if (and (general-tree-p root)
+               (not (leaf? root)))
+          (apply #'max (mapcar (lambda (e) (depth tree e (1+ start)))
+                               (general-tree-children root)))
+          -1)))
+
+(defun height (tree &optional (start 0))
+  "Get the height of TREE, where height is defined as the depth of the deepest
+node in a tree."
+  (if (and (general-tree-p tree)
+           (not (leaf? tree)))
+      (apply #'max (mapcar (lambda (e) (height e (1+ start)))
+                           (general-tree-children tree)))
+      start))
+
 (defmethod %traverse (tree (order (eql 'preorder)) function)
   (if (general-tree-p tree)
       (cons (if function
