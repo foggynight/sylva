@@ -32,10 +32,6 @@ naming the tree type to the TREE-TYPE parameter."
             (mapcar #'tree->sexp (general-tree-children tree)))
       tree))
 
-(defun leaf? (tree)
-  "Is TREE a leaf node?"
-  (endp (general-tree-children tree)))
-
 (defun equal? (tree-0 tree-1 &key test)
   "Are two trees equal?
 
@@ -50,6 +46,14 @@ parameter, the default test is the default test of TREE-EQUAL, which is EQL."
   (if (general-tree-p tree)
       (1+ (reduce #'+ (mapcar #'size (general-tree-children tree))))
       (if (null tree) 0 1)))
+
+(defun empty? (tree)
+  "Is TREE empty?"
+  (zerop (size tree)))
+
+(defun leaf? (tree)
+  "Is TREE a leaf node?"
+  (endp (general-tree-children tree)))
 
 (defun depth (tree root &optional (start 0))
   "Get the depth of TREE relative to ROOT, where depth is defined as the number

@@ -11,6 +11,7 @@ in Common Lisp.")
    #:equal?
    #:leaf?
    #:size
+   #:empty?
    #:depth
    #:height
    #:traverse
