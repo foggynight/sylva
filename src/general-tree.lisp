@@ -36,10 +36,14 @@ naming the tree type to the TREE-TYPE parameter."
   "Is TREE a leaf node?"
   (endp (general-tree-children tree)))
 
-(defun equal? (tree-0 tree-1)
-  "Are two trees equal?"
+(defun equal? (tree-0 tree-1 &key test)
+  "Are two trees equal?
+
+The test function may be specified by passing a function to the TEST key
+parameter, the default test is the default test of TREE-EQUAL, which is EQL."
   (tree-equal (tree->sexp tree-0)
-              (tree->sexp tree-1)))
+              (tree->sexp tree-1)
+              :test test))
 
 (defmethod %traverse (tree (order (eql 'preorder)) function)
   (if (general-tree-p tree)
