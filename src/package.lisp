@@ -10,8 +10,14 @@ in Common Lisp.")
    #:tree->sexp
    #:equal?
    #:leaf?
-   #:preorder-traversal
-   #:postorder-traversal
-   #:inorder-traversal
+   #:size
+   #:depth
+   #:height
+   #:traverse
+
+   ;; binary-tree.lisp
+   #:left
+   #:right
+   #:sorted?
 
    ))
