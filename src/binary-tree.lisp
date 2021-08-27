@@ -5,7 +5,7 @@
 constraints on the order of its nodes, but where each of its nodes have at most
 two children.")
 
-(defmethod %sexp->tree (sexp (tree-type (eql 'binary-tree)))
+(defmethod %sexp->tree (sexp (tree-type (eql :binary-tree)))
   (%%sexp->tree sexp #'make-binary-tree))
 
 (defun left (binary-tree)

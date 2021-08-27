@@ -15,10 +15,10 @@ its nodes, nor the number of children its nodes have."
                                    (%%sexp->tree e constructor))
                                  (rest sexp)))))
 
-(defmethod %sexp->tree (sexp (tree-type (eql 'general-tree)))
+(defmethod %sexp->tree (sexp (tree-type (eql :general-tree)))
   (%%sexp->tree sexp #'make-general-tree))
 
-(defun sexp->tree (sexp &optional (tree-type 'general-tree))
+(defun sexp->tree (sexp &optional (tree-type :general-tree))
   "Convert SEXP into a tree.
 
 The type of tree to convert SEXP into may be specified by passing a symbol
@@ -71,7 +71,7 @@ node in a tree."
                            (general-tree-children tree)))
       start))
 
-(defmethod %traverse (tree (order (eql 'preorder)) function)
+(defmethod %traverse (tree (order (eql :preorder)) function)
   (if (general-tree-p tree)
       (cons (if function
                 (funcall function (general-tree-data tree))
@@ -83,7 +83,7 @@ node in a tree."
                 (funcall function tree)
                 tree))))
 
-(defmethod %traverse (tree (order (eql 'postorder)) function)
+(defmethod %traverse (tree (order (eql :postorder)) function)
   (if (general-tree-p tree)
       (append (reduce #'append
                       (mapcar (lambda (e) (postorder-traversal e function))
@@ -95,7 +95,7 @@ node in a tree."
                 (funcall function tree)
                 tree))))
 
-(defmethod %traverse (tree (order (eql 'inorder)) function)
+(defmethod %traverse (tree (order (eql :inorder)) function)
   (if (general-tree-p tree)
       (let* ((children (general-tree-children tree))
              (center-index (ceiling (length children) 2)))
@@ -112,7 +112,7 @@ node in a tree."
                 (funcall function tree)
                 tree))))
 
-(defun traverse (tree &key (order 'preorder) function)
+(defun traverse (tree &key (order :preorder) function)
   "Traverse a tree and collect the data at each visited node in a list.
 
 The order of the traversal may be specified by passing a symbol naming the
