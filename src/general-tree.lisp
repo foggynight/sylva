@@ -81,7 +81,7 @@ node in a tree."
                 (funcall function (general-tree-data tree))
                 (general-tree-data tree))
             (reduce #'append
-                    (mapcar (lambda (e) (preorder-traversal e function))
+                    (mapcar (lambda (e) (%traverse e :preorder function))
                             (general-tree-children tree))))
       (list (if function
                 (funcall function tree)
@@ -90,7 +90,7 @@ node in a tree."
 (defmethod %traverse (tree (order (eql :postorder)) function)
   (if (general-tree-p tree)
       (append (reduce #'append
-                      (mapcar (lambda (e) (postorder-traversal e function))
+                      (mapcar (lambda (e) (%traverse e :postorder function))
                               (general-tree-children tree)))
               (list (if function
                         (funcall function (general-tree-data tree))
@@ -104,13 +104,13 @@ node in a tree."
       (let* ((children (general-tree-children tree))
              (center-index (ceiling (length children) 2)))
         (append (reduce #'append
-                        (mapcar (lambda (e) (inorder-traversal e function))
+                        (mapcar (lambda (e) (%traverse e :inorder function))
                                 (subseq children 0 center-index)))
                 (list (if function
                           (funcall function (general-tree-data tree))
                           (general-tree-data tree)))
                 (reduce #'append
-                        (mapcar (lambda (e) (inorder-traversal e function))
+                        (mapcar (lambda (e) (%traverse e :inorder function))
                                 (subseq children center-index)))))
       (list (if function
                 (funcall function tree)
