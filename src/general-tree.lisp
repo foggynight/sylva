@@ -18,12 +18,12 @@ its nodes, nor the number of children its nodes have."
 (defmethod %sexp->tree (sexp (tree-type (eql 'general-tree)))
   (%%sexp->tree sexp #'make-general-tree))
 
-(defmacro sexp->tree (sexp &optional (tree-type ''general-tree))
+(defun sexp->tree (sexp &optional (tree-type 'general-tree))
   "Convert SEXP into a tree.
 
 Optionally, the type of tree may be specified by passing a symbol to the
 TREE-TYPE parameter."
-  `(%sexp->tree ,sexp ,tree-type))
+  (%sexp->tree sexp tree-type))
 
 (defun tree->sexp (tree)
   "Convert a general tree into a sexp."
