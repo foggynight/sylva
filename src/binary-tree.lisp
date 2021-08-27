@@ -24,9 +24,8 @@ BINARY-TREE is deemed to be sorted if any of the following conditions are met:
 - BINARY-TREE is a leaf node, that is, it has no children
 - The list resulting from an inorder traversal of BINARY-TREE is sorted
 
-Optionally, the test used to determine if the list resulting from an inorder
-traversal of BINARY-TREE is sorted may be specified using the TEST key
-parameter."
+The test used to determine if the list resulting from an inorder traversal of
+BINARY-TREE is sorted may be specified using the TEST key parameter."
   (flet ((sorted-list? (list)
            (every test list (rest list))))
     (or (not (binary-tree-p binary-tree))
