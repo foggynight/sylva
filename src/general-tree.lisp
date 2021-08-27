@@ -53,7 +53,7 @@ parameter, the default test is the default test of TREE-EQUAL, which is EQL."
 
 (defun depth (tree root &optional (start 0))
   "Get the depth of TREE relative to ROOT, where depth is defined as the number
-of branches between a tree node and the root of the tree."
+of branches between a node and the root of its containing tree."
   (if (eql tree root)
       start
       (if (and (general-tree-p root)
