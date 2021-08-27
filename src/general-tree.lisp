@@ -21,8 +21,8 @@ its nodes, nor the number of children its nodes have."
 (defun sexp->tree (sexp &optional (tree-type 'general-tree))
   "Convert SEXP into a tree.
 
-Optionally, the type of tree may be specified by passing a symbol to the
-TREE-TYPE parameter."
+The type of tree to convert SEXP into may be specified by passing a symbol
+naming the tree type to the TREE-TYPE parameter."
   (%sexp->tree sexp tree-type))
 
 (defun tree->sexp (tree)
