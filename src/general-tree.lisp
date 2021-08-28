@@ -15,6 +15,8 @@ its nodes, nor the number of children its nodes have."
                                    (%%sexp->tree e constructor))
                                  (rest sexp)))))
 
+(defgeneric %sexp->tree (sexp tree-type))
+
 (defmethod %sexp->tree (sexp (tree-type (eql :general-tree)))
   (%%sexp->tree sexp #'make-general-tree))
 
@@ -55,6 +57,17 @@ parameter, the default test is the default test of TREE-EQUAL, which is EQL."
   "Is TREE a leaf node?"
   (endp (general-tree-children tree)))
 
+(defun child-count (tree)
+  "Get the number of children of TREE."
+  (length (general-tree-children tree)))
+
+(defun add-child (child tree)
+  "Add CHILD to the list of children of TREE, after converting it into the type
+of TREE."
+  (setf (general-tree-children tree)
+        (append (general-tree-children tree)
+                (list child))))
+
 (defun depth (tree root &optional (start 0))
   "Get the depth of TREE relative to ROOT, where depth is defined as the number
 of branches between a node and the root of its containing tree."
@@ -74,6 +87,30 @@ node in a tree."
       (apply #'max (mapcar (lambda (e) (height e (1+ start)))
                            (general-tree-children tree)))
       start))
+
+(defgeneric insert (data tree)
+  (:documentation "Insert DATA into TREE. If the type of DATA is not
+GENERAL-TREE or one of it's subtypes, DATA is converted into a GENERAL-TREE
+before inserting it."))
+
+(defmethod insert ((data general-tree) (tree null))
+  "Return DATA."
+  data)
+
+(defmethod insert (data (tree null))
+  "Return a new GENERAL-TREE with DATA as the value of its DATA slot."
+  (make-general-tree :data data))
+
+(defmethod insert ((data general-tree) (tree general-tree))
+  "Add DATA to the list of children of TREE."
+  (add-child data tree))
+
+(defmethod insert (data (tree general-tree))
+  "Create a new GENERAL-TREE with DATA as the value of its DATA slot, and insert
+it into TREE using the INSERT method."
+  (insert (make-general-tree :data data) tree))
+
+(defgeneric %traverse (tree order function))
 
 (defmethod %traverse (tree (order (eql :preorder)) function)
   (if (general-tree-p tree)

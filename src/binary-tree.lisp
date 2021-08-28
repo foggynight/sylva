@@ -16,6 +16,27 @@ two children.")
   "Get the right sub-tree of BINARY-TREE."
   (second (binary-tree-children binary-tree)))
 
+(defmethod insert ((data binary-tree) (tree binary-tree))
+  "Insert DATA into TREE by performing a breadth-first search on TREE and adding
+DATA to the list of children of the first node encountered which has less than
+two children."
+  (do ((queue (list tree)
+              (reduce #'append
+                      (remove-if #'null
+                                 (mapcar #'binary-tree-children
+                                         queue))))
+       (found nil
+              (dolist (node queue)
+                (when (< (child-count node) 2)
+                  (add-child data node)
+                  (return t)))))
+      (found)))
+
+(defmethod insert (data (tree binary-tree))
+  "Create a new BINARY-TREE with DATA as the value of its DATA slot, and insert
+it into TREE using the INSERT method."
+  (insert (make-binary-tree :data data) tree))
+
 (defun sorted? (binary-tree &key (test #'<=))
   "Is BINARY-TREE sorted?
 
